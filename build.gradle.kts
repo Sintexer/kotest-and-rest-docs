@@ -6,6 +6,8 @@ plugins {
     kotlin("plugin.spring") version "1.7.22"
 }
 
+java.sourceCompatibility = JavaVersion.VERSION_17
+
 repositories {
     mavenCentral()
 }
@@ -22,6 +24,17 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "17"
+    }
 }
 
 tasks.asciidoctor {
